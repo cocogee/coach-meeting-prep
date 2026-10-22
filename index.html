@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coach Meeting Prep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: form on the left, live one-page agenda on the right (stacked on phones). Tokens match the DE workbook. */
+:root{
+  --paper:#FFFFFF; --card:#FFFFFF; --ink:#13294B; --ink2:#51617C; --line:#D3DAE4;
+  --gridline:rgba(19,41,75,.05); --accent:#E84A27; --accent-soft:rgba(232,74,39,.10);
+  --t1:#13294B; --t2:#E84A27; --t3:#2E5A8F;
+  --shadow:0 1px 3px rgba(19,41,75,.10);
+  --field:rgba(19,41,75,.035); --thead:#EFF3F8;
+  --disp:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+  --body:'IBM Plex Serif',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --paper:#0E1B30; --card:#16263F; --ink:#EAF0F7; --ink2:#93A5BD; --line:#2A3D59;
+    --gridline:rgba(234,240,247,.045); --accent:#FF6B3D; --accent-soft:rgba(255,107,61,.14);
+    --t1:#7EA3D6; --t2:#FF6B3D; --t3:#5F8FCB;
+    --field:rgba(234,240,247,.06); --thead:rgba(234,240,247,.07);
+    --shadow:0 1px 3px rgba(0,0,0,.45); color-scheme:dark; }
+}
+:root[data-theme="dark"]{ --paper:#0E1B30; --card:#16263F; --ink:#EAF0F7; --ink2:#93A5BD; --line:#2A3D59;
+  --gridline:rgba(234,240,247,.045); --accent:#FF6B3D; --accent-soft:rgba(255,107,61,.14);
+  --t1:#7EA3D6; --t2:#FF6B3D; --t3:#5F8FCB;
+  --field:rgba(234,240,247,.06); --thead:rgba(234,240,247,.07);
+  --shadow:0 1px 3px rgba(0,0,0,.45); color-scheme:dark; }
+
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.65;
+  background:
+    linear-gradient(var(--gridline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gridline) 1px, transparent 1px),
+    var(--paper);
+  background-size:28px 28px, 28px 28px, auto;
+}
+a{color:var(--accent)}
+::placeholder{color:var(--ink2);opacity:.55}
+
+.shell{max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-bottom:80px}
+header.masthead{padding:36px 0 22px;border-bottom:2px solid var(--ink);margin-bottom:10px}
+.eyebrow{font-family:var(--disp);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1.title{font-family:var(--disp);font-weight:700;font-size:clamp(27px,5vw,42px);line-height:1.08;margin:8px 0 8px;letter-spacing:-.015em;text-wrap:balance}
+.intro{max-width:62ch;margin:12px 0 4px;font-size:17px;line-height:1.6}
+.intro em{color:var(--ink2)}
+
+.cols{display:grid;gap:8px}
+@media(min-width:1000px){
+  .cols{grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:36px;align-items:start}
+  .previewcol{position:sticky;top:0;max-height:100vh;overflow-y:auto;padding-bottom:24px}
+}
+.formcol,.previewcol{min-width:0}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:24px 24px 26px;margin:28px 0}
+@media(max-width:520px){.card{padding:20px 16px 22px}}
+.card h2{display:flex;align-items:baseline;gap:12px;font-family:var(--disp);font-size:20px;font-weight:700;margin:0 0 4px;letter-spacing:-.005em}
+.card h2 .n{font-family:var(--mono);font-weight:400;font-size:14px;color:var(--accent)}
+.card .lede{font-size:15px;color:var(--ink2);margin:0 0 6px;max-width:62ch}
+.card h3{font-family:var(--disp);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:24px 0 4px;color:var(--ink)}
+.hint{font-size:14.5px;color:var(--ink2);margin:2px 0 10px;max-width:62ch;line-height:1.55}
+
+.field{margin:16px 0}
+.field label{display:block;font-family:var(--disp);font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.45}
+.row{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.row .field{margin:8px 0}
+input[type=text],input[type=date],input[type=number],textarea{
+  width:100%;font-family:var(--body);font-size:15.5px;color:var(--ink);
+  background:var(--field);border:1px solid var(--line);
+  padding:9px 12px;border-radius:8px;line-height:1.5;
+}
+textarea{resize:none;overflow:hidden;min-height:42px;display:block}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+.list{list-style:none;padding:0;margin:8px 0;display:grid;gap:10px}
+.list li{display:flex;gap:10px;align-items:flex-start}
+.list li textarea{flex:1}
+.steps li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 10px}
+.steps .stepfields{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:620px){.steps .stepfields{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1fr)}}
+.x{flex:none;width:34px;height:34px;padding:0;border-radius:50%;border-color:var(--line);color:var(--ink2);font-size:18px;line-height:1;margin-top:4px}
+.add{border-style:dashed;border-color:var(--line);color:var(--ink2);font-size:13.5px;padding:7px 16px}
+
+.channelnote{margin:12px 0 0;padding:10px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:14.5px;line-height:1.55;max-width:62ch;border-radius:0 6px 6px 0}
+.channelnote b{font-family:var(--disp);font-weight:600}
+
+button{font-family:var(--disp);font-size:14px;font-weight:600;color:var(--ink);
+  background:var(--card);border:1px solid var(--ink);border-radius:999px;padding:9px 20px;cursor:pointer}
+button:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary{background:var(--ink);color:var(--paper)}
+button.quiet{border-color:var(--line);color:var(--ink2)}
+button.quiet:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:active{transform:translateY(1px)}
+.toolbar button{flex:1 1 auto}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
+.confirm{margin:8px 0 0;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;font-size:14.5px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.confirm span{flex:1 1 220px}
+.toast{font-family:var(--disp);font-size:13.5px;color:var(--accent);min-height:20px;margin:2px 0}
+.copyfallback{width:100%;font-family:var(--mono);font-size:12.5px;min-height:160px;margin-top:8px}
+.paperlink{font-size:14.5px;color:var(--ink2);margin:6px 0 0}
+
+/* ---------- the agenda (screen preview + printed page) ---------- */
+.previewlabel{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin:28px 0 8px}
+.agenda{background:#fff;color:#13294B;border:1px solid var(--line);box-shadow:var(--shadow);padding:30px 30px 34px;font-family:var(--body);font-size:13.5px;line-height:1.55}
+@media(max-width:520px){.agenda{padding:22px 18px 26px}}
+.agenda .ahead{border-bottom:2px solid #13294B;padding-bottom:12px;margin-bottom:14px}
+.agenda .aeye{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#E84A27}
+.agenda h1{font-family:var(--disp);font-size:21px;font-weight:700;line-height:1.2;margin:4px 0 8px;letter-spacing:-.01em;text-wrap:balance}
+.agenda .meta{display:flex;flex-wrap:wrap;gap:4px 18px;font-family:var(--mono);font-size:11px;color:#51617C}
+.agenda .meta b{font-weight:500;color:#13294B}
+.agenda section{margin:14px 0 0;break-inside:avoid}
+.agenda h2{display:flex;gap:10px;align-items:baseline;font-family:var(--disp);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:0 0 4px;border-bottom:1px solid #D3DAE4;padding-bottom:4px}
+.agenda h2 .n{font-family:var(--mono);font-weight:400;color:#E84A27;letter-spacing:0}
+.agenda h3{font-family:var(--disp);font-size:12px;font-weight:600;margin:8px 0 2px;color:#51617C}
+.agenda ul{margin:2px 0;padding-left:18px}
+.agenda li{margin:2px 0}
+.agenda p{margin:2px 0}
+.agenda .empty{color:#8A97AB;font-style:italic}
+.agenda table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:4px}
+.agenda th,.agenda td{text-align:left;border-bottom:1px solid #E3E8EF;padding:4px 6px 4px 0;vertical-align:top}
+.agenda th{font-family:var(--disp);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#51617C}
+.agenda .live{border-left:3px solid #E84A27;padding-left:10px}
+
+@media print{
+  @page{size:letter;margin:0.55in}
+  body{background:#fff}
+  header.masthead,.formcol,.previewlabel,.toolbar,.toast{display:none !important}
+  .shell{padding:0;max-width:none}
+  .cols{display:block}
+  .previewcol{position:static;max-height:none;overflow:visible}
+  .agenda{border:none;box-shadow:none;padding:0;font-size:12.5px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="masthead">
+  <div class="eyebrow">TE598 · Coach Meetings</div>
+  <h1 class="title">Coach Meeting Prep</h1>
+  <p class="intro">Fill this in before each meeting with your coach. It builds a one-page agenda you can save as a PDF or paste into an email. Send it a day or two ahead so your coach can come ready. <em>Your answers stay in this browser and are saved as you type.</em></p>
+</header>
+
+<div class="cols">
+<div class="formcol">
+
+  <div class="card">
+    <h2>The meeting</h2>
+    <div class="row">
+      <div class="field"><label for="team">Team or venture</label><input type="text" id="team" placeholder="e.g. SoilSense"></div>
+      <div class="field"><label for="coach">Coach</label><input type="text" id="coach" list="coaches" placeholder="Your coach's name"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label for="date">Meeting date</label><input type="date" id="date"></div>
+      <div class="field"><label for="num">Meeting number</label><input type="number" id="num" min="1" placeholder="2"></div>
+    </div>
+    <div class="field"><label for="who">Who's attending from the team</label><input type="text" id="who" placeholder="Names"></div>
+    <datalist id="coaches">
+      <option value="Samantha Knoll"></option>
+      <option value="Craig Scherer"></option>
+      <option value="Manas Gosavi"></option>
+      <option value="Craig Vodnik"></option>
+    </datalist>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span>Since our last meeting</h2>
+    <p class="lede">What happened, good and bad. Keep each item to a line or two.</p>
+    <h3>Wins</h3>
+    <p class="hint">Progress, results, things that went better than expected.</p>
+    <ul class="list" id="wins"></ul>
+    <button class="add" data-add="wins">+ Add a win</button>
+    <h3>Setbacks</h3>
+    <p class="hint">Things that didn't work, stalled, or surprised you.</p>
+    <ul class="list" id="setbacks"></ul>
+    <button class="add" data-add="setbacks">+ Add a setback</button>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span>Where we want your help</h2>
+    <p class="lede">Sort each item by what you need your coach to do.</p>
+    <h3>Work through together</h3>
+    <p class="hint">One problem to solve live in the meeting. This gets most of the time.</p>
+    <div class="field"><label for="topic">The problem</label><textarea id="topic" rows="1" placeholder="e.g. Our interviews point to two different customer segments. Which should we test first?"></textarea></div>
+    <p class="channelnote" id="channelnote"><b>Nothing to work through this time?</b> Pick a question from the weekly questions channel in Teams and discuss how it applies to your venture.</p>
+    <h3>Quick questions</h3>
+    <p class="hint">Things your coach can answer in a minute or two.</p>
+    <ul class="list" id="questions"></ul>
+    <button class="add" data-add="questions">+ Add a question</button>
+    <h3>Asks</h3>
+    <p class="hint">Things your coach would do after the meeting: an introduction, a resource, feedback on an assignment.</p>
+    <ul class="list" id="asks"></ul>
+    <button class="add" data-add="asks">+ Add an ask</button>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span>Next steps</h2>
+    <p class="lede">What you'll do before the next meeting. Draft these now and confirm them with your coach at the end.</p>
+    <ul class="list steps" id="steps"></ul>
+    <button class="add" data-add="steps">+ Add a next step</button>
+  </div>
+
+</div>
+
+<div class="previewcol">
+  <div class="previewlabel">Your agenda</div>
+  <div class="toolbar">
+    <button id="pdf">Save as PDF</button>
+    <button id="copy">Copy as email text</button>
+    <button id="next">Start new</button>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="confirm" id="confirm" hidden>
+    <span>This clears this meeting's answers and keeps your team, coach and attendees. Save or copy the agenda first if you need it.</span>
+    <button class="primary" id="confirmyes">Clear and start</button>
+    <button class="quiet" id="confirmno">Cancel</button>
+  </div>
+  <textarea class="copyfallback" id="copyfallback" readonly hidden aria-label="Agenda text to copy"></textarea>
+  <article class="agenda" id="agenda"></article>
+  <p class="paperlink">Prefer paper? Use the <a href="coach-meeting-prep-handout.pdf">one-page handout</a>.</p>
+</div>
+</div>
+</div>
+
+<script>
+const KEY='te598-coach-meeting-prep-v1';
+const LISTS=['wins','setbacks','questions','asks'];
+const FIELDS=['team','coach','date','num','who','topic'];
+const PH={wins:'e.g. Finished 6 customer interviews with farm managers',
+  setbacks:'e.g. Our pricing survey got only 4 responses',
+  questions:'e.g. Should we file a provisional patent before the pitch?',
+  asks:'e.g. An introduction to someone who buys equipment for a large farm'};
+
+let S=load();
+function blank(){return {team:'',coach:'',date:'',num:'',who:'',topic:'',wins:[''],setbacks:[''],questions:[''],asks:[''],steps:[{a:'',o:'',d:''}]}}
+function load(){
+  try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&typeof r==='object')return Object.assign(blank(),r)}catch(e){}
+  return blank();
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+const $=id=>document.getElementById(id);
+function grow(t){t.style.height='auto';t.style.height=t.scrollHeight+'px'}
+
+function renderList(name){
+  const ul=$(name);ul.innerHTML='';
+  S[name].forEach((v,i)=>{
+    const li=document.createElement('li');
+    const t=document.createElement('textarea');t.rows=1;t.value=v;t.placeholder=i===0?PH[name]:'';
+    t.id=name+'-'+i;t.setAttribute('aria-label',name+' item '+(i+1));
+    t.addEventListener('input',()=>{S[name][i]=t.value;grow(t);changed()});
+    const x=document.createElement('button');x.className='x';x.type='button';x.textContent='×';x.setAttribute('aria-label','Remove');
+    x.addEventListener('click',()=>{S[name].splice(i,1);if(!S[name].length)S[name].push('');renderList(name);changed()});
+    li.append(t,x);ul.append(li);requestAnimationFrame(()=>grow(t));
+  });
+}
+function renderSteps(){
+  const ul=$('steps');ul.innerHTML='';
+  S.steps.forEach((s,i)=>{
+    const li=document.createElement('li');const f=document.createElement('div');f.className='stepfields';
+    [['a','What we’ll do',i===0?'e.g. Interview 5 co-op purchasing managers':''],['o','Who owns it',i===0?'e.g. Priya':''],['d','By when',i===0?'e.g. Nov 5':'']].forEach(([k,lab,ph])=>{
+      const t=document.createElement(k==='a'?'textarea':'input');if(k==='a')t.rows=1;else t.type='text';
+      t.value=s[k]||'';t.placeholder=ph;t.id='step-'+i+'-'+k;t.setAttribute('aria-label',lab);
+      t.addEventListener('input',()=>{S.steps[i][k]=t.value;if(k==='a')grow(t);changed()});
+      f.append(t);if(k==='a')requestAnimationFrame(()=>grow(t));
+    });
+    const x=document.createElement('button');x.className='x';x.type='button';x.textContent='×';x.setAttribute('aria-label','Remove step');
+    x.addEventListener('click',()=>{S.steps.splice(i,1);if(!S.steps.length)S.steps.push({a:'',o:'',d:''});renderSteps();changed()});
+    li.append(f,x);ul.append(li);
+  });
+}
+function renderAll(){
+  FIELDS.forEach(f=>{const el=$(f);el.value=S[f]||'';if(el.tagName==='TEXTAREA')requestAnimationFrame(()=>grow(el))});
+  LISTS.forEach(renderList);renderSteps();changed(true);
+}
+FIELDS.forEach(f=>$(f).addEventListener('input',e=>{S[f]=e.target.value;if(e.target.tagName==='TEXTAREA')grow(e.target);changed()}));
+document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{
+  const n=b.dataset.add;
+  if(n==='steps'){S.steps.push({a:'',o:'',d:''});renderSteps();$('step-'+(S.steps.length-1)+'-a').focus()}
+  else{S[n].push('');renderList(n);$(n+'-'+(S[n].length-1)).focus()}
+  changed();
+}));
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const filled=a=>a.map(x=>x.trim()).filter(Boolean);
+const steps=()=>S.steps.filter(s=>(s.a||'').trim());
+function fmtDate(d){if(!d)return'';const t=new Date(d+'T12:00:00');return isNaN(t)?d:t.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}
+
+function agendaHTML(){
+  const L=n=>filled(S[n]);
+  const sub=(h,items)=>items.length?`<h3>${h}</h3><ul>${items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`:'';
+  const s1=sub('Wins',L('wins'))+sub('Setbacks',L('setbacks'));
+  const work=S.topic.trim()?`<h3>Work through together</h3><div class="live"><p>${esc(S.topic.trim())}</p></div>`:'';
+  const s2=work+sub('Quick questions',L('questions'))+sub('Asks',L('asks'));
+  const st=steps();
+  const s3=st.length?`<table><thead><tr><th>Action</th><th>Owner</th><th>By</th></tr></thead><tbody>${st.map(s=>`<tr><td>${esc(s.a.trim())}</td><td>${esc((s.o||'').trim())}</td><td>${esc((s.d||'').trim())}</td></tr>`).join('')}</tbody></table>`:'';
+  const none='<p class="empty">Nothing added yet.</p>';
+  const meta=[S.coach&&`Coach <b>${esc(S.coach)}</b>`,S.date&&`<b>${esc(fmtDate(S.date))}</b>`,S.num&&`Meeting <b>${esc(S.num)}</b>`,S.who&&`Attending <b>${esc(S.who)}</b>`].filter(Boolean).join('');
+  return `<div class="ahead"><div class="aeye">TE598 · Coach meeting agenda</div><h1>${esc(S.team||'Your team')}</h1><div class="meta">${meta}</div></div>
+<section><h2><span class="n">1</span>Since our last meeting</h2>${s1||none}</section>
+<section><h2><span class="n">2</span>Where we want your help</h2>${s2||none}</section>
+<section><h2><span class="n">3</span>Next steps</h2>${s3||none}</section>`;
+}
+function agendaText(){
+  const out=[];const L=n=>filled(S[n]);
+  out.push(`${S.team||'Our team'}: coach meeting agenda`);
+  const m=[S.coach&&`Coach: ${S.coach}`,S.date&&fmtDate(S.date),S.num&&`Meeting ${S.num}`].filter(Boolean).join(' | ');if(m)out.push(m);
+  if(S.who)out.push(`Attending: ${S.who}`);
+  const list=(h,a)=>{if(a.length){out.push('',h+':');a.forEach(i=>out.push('- '+i))}};
+  out.push('','1. SINCE OUR LAST MEETING');list('Wins',L('wins'));list('Setbacks',L('setbacks'));
+  out.push('','2. WHERE WE WANT YOUR HELP');
+  if(S.topic.trim()){out.push('','Work through together:','- '+S.topic.trim())}
+  list('Quick questions',L('questions'));list('Asks',L('asks'));
+  out.push('','3. NEXT STEPS');steps().forEach(s=>out.push('- '+s.a.trim()+((s.o||'').trim()?` (${s.o.trim()}`+((s.d||'').trim()?`, by ${s.d.trim()})`:')'):((s.d||'').trim()?` (by ${s.d.trim()})`:''))));
+  return out.join('\n');
+}
+
+let toastT;
+function toast(m){$('toast').textContent=m;clearTimeout(toastT);toastT=setTimeout(()=>$('toast').textContent='',3500)}
+function changed(skipSave){
+  $('agenda').innerHTML=agendaHTML();
+  $('channelnote').hidden=!!S.topic.trim();
+  if(!skipSave)save();
+}
+
+$('pdf').addEventListener('click',()=>{
+  const name=(S.team||'team').replace(/[^\w\- ]+/g,'').trim();
+  const old=document.title;document.title=`${name} coach agenda${S.date?' '+S.date:''}`;
+  window.print();setTimeout(()=>document.title=old,500);
+});
+$('copy').addEventListener('click',()=>{
+  const txt=agendaText();const fb=$('copyfallback');
+  const fallback=()=>{fb.hidden=false;fb.value=txt;fb.focus();fb.select();toast('Select all and copy the text below.')};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>{fb.hidden=true;toast('Copied. Paste it into your email to your coach.')},fallback);
+  }else fallback();
+});
+$('next').addEventListener('click',()=>{$('confirm').hidden=false;$('confirmyes').focus()});
+$('confirmno').addEventListener('click',()=>{$('confirm').hidden=true});
+$('confirmyes').addEventListener('click',()=>{
+  const keep={team:S.team,coach:S.coach,who:S.who,num:S.num&&!isNaN(+S.num)?String(+S.num+1):''};
+  S=Object.assign(blank(),keep);save();renderAll();$('confirm').hidden=true;toast('Ready for the next meeting.');
+});
+
+renderAll();
+</script>
+</body>
+</html>
